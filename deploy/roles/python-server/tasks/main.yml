@@ -1,0 +1,6 @@
+---
+- name: Install python requirements
+  pip:
+    requirements: /vagrant/requirements.txt
+    state: present
+    executable: pip3

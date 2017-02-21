@@ -1,0 +1,10 @@
+---
+- hosts:
+  - webserver
+  gather_facts: no
+  become: yes
+  pre_tasks:
+    - debug: msg="Entering the playbook 'webserver.yml'"
+    - apt: update_cache=yes cache_valid_time=86400
+  roles:
+    - python-server

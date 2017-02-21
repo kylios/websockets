@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Websockets Sandbox</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+    </script>
+    </head>
+    <body>
+        hello world!
+
+        <p>
+        <button id="start-streaming">Start Streaming</button>
+        </p>
+        <p>
+        <button id="stop-streaming" disabled="disabled">Stop Streaming</button>
+        </p>
+        <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            var startStreaming = $('#start-streaming');
+            var stopStreaming = $('#stop-streaming');
+
+            startStreaming.click(function() {
+                $.post('/start_streaming', function() {
+                    alert('started');
+                    startStreaming.prop('disabled', true);
+                    stopStreaming.prop('disabled', false);
+                });
+            });
+
+            stopStreaming.click(function() {
+                $.post('/stop_streaming', function() {
+                    alert('stopped');
+                    startStreaming.prop('disabled', false);
+                    stopStreaming.prop('disabled', true);
+                });
+            });
+
+
+            console.log("About to set up socket");
+            var socket = io.connect('127.0.0.1:8080');
+
+            socket.on('connect', function() {
+                socket.emit('my event', {data: 'I\'m connected!'}, function(data) {
+                    console.log(data);
+
+                });
+            });
+
+            socket.on('my event', function(data) {
+                alert(data);
+            });
+
+            socket.on('test', function(message) {
+                console.log(message);
+            });
+            console.log("socket is set up");
+        });
+        </script>
+    </body>
+</html>

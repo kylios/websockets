@@ -1,0 +1,5 @@
+env
+.vagrant
+*.log
+*.pyc
+__pycache__

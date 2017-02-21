@@ -1,0 +1,12 @@
+---
+- hosts:
+  - websockets
+  gather_facts: no
+  become: yes
+  pre_tasks:
+    - debug: msg="Entering the playbook 'all.yml'"
+    - name: install python 2
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+    - apt: update_cache=yes cache_valid_time=86400
+
+- include: webserver.yml
